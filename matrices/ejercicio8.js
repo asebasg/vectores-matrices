@@ -10,3 +10,49 @@ let matriz = [
   [7, 8, 9],
 ];
 
+function promedioValores(matriz) {
+  const filas = matriz.length;
+  const columnas = matriz[0].length;
+
+  // Función para calcular promedio de un arreglo de números
+  function promedio(arr) {
+    const suma = arr.reduce((acc, val) => acc + val, 0);
+    return suma / arr.length;
+  }
+
+  if (filas === columnas) {
+    // Matriz cuadrada: promedio de valores por encima de la diagonal principal
+    let valores = [];
+    for (let i = 0; i < filas; i++) {
+      for (let j = i + 1; j < columnas; j++) {
+        valores.push(matriz[i][j]);
+      }
+    }
+    return promedio(valores);
+  } else {
+    // Matriz no cuadrada: promedio de valores de los extremos (bordes)
+    let valores = [];
+
+    // Agregar fila superior
+    for (let j = 0; j < columnas; j++) {
+      valores.push(matriz[0][j]);
+    }
+    // Agregar fila inferior
+    for (let j = 0; j < columnas; j++) {
+      valores.push(matriz[filas - 1][j]);
+    }
+    // Agregar columna izquierda (sin repetir esquinas)
+    for (let i = 1; i < filas - 1; i++) {
+      valores.push(matriz[i][0]);
+    }
+    // Agregar columna derecha (sin repetir esquinas)
+    for (let i = 1; i < filas - 1; i++) {
+      valores.push(matriz[i][columnas - 1]);
+    }
+
+    return promedio(valores);
+  }
+}
+
+// Ejemplo de uso
+console.log("Promedio:", promedioValores(matriz));
